@@ -1,4 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+
+import '../models/account.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -9,7 +13,16 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-List accounts = [];
+ List <Account> accounts = [] ;
+
+Account start =  Account("bank", 60 );
+
+
+@override
+  void initState() {
+    accounts.add(start);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +64,7 @@ List accounts = [];
                             SizedBox(
                               height: 100,
                              child: ListView.builder(
-                               itemCount: 10,
+                               itemCount: accounts.length,
                                  scrollDirection: Axis.horizontal,
                                  itemBuilder: (context, index) => Container(
                                    padding: EdgeInsets.all(10),
@@ -69,15 +82,16 @@ List accounts = [];
                                          mainAxisAlignment: MainAxisAlignment.end,
                                          crossAxisAlignment: CrossAxisAlignment.end,
                                          children: [
-                                           const Text("Balance",style: TextStyle(
+                                            Text(accounts[index].amount.toString(),style: TextStyle(
                                              fontSize: 20,
                                            ),
                                            ),
                                            Column(
                                              crossAxisAlignment: CrossAxisAlignment.start,
 
+
                                              children: [
-                                               Text("Name",style: TextStyle(
+                                               Text(accounts[index].name.toUpperCase(),style: TextStyle(
                                                  fontSize: 25
                                                ),
                                                )
