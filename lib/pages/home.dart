@@ -19,6 +19,7 @@ class _HomeState extends State<Home> {
  final List <Category> categoryList = [];
 
 Account start =  Account("bank", 60 );
+  Account startTwo =  Account("cash", 600 );
 Category categoryOne = Category("Home", 0);
   Category categoryTwo = Category("Two", 0);
   String? valueCategory;
@@ -26,6 +27,7 @@ Category categoryOne = Category("Home", 0);
 @override
   void initState() {
     accounts.add(start);
+    accounts.add(startTwo);
     categoryList.add(categoryOne);
     categoryList.add(categoryTwo);
     super.initState();
@@ -35,7 +37,7 @@ Category categoryOne = Category("Home", 0);
     return Scaffold(
         appBar: AppBar(
 
-          title: Text('Your money'),
+          title: const Text('Your money'),
           centerTitle: true,
           backgroundColor: Colors.lime,
         ),
@@ -51,7 +53,7 @@ Category categoryOne = Category("Home", 0);
                         IconButton(onPressed: () {},
                             icon: const Icon(Icons.arrow_back_outlined, size: 30,)),
 
-                            Text('Your accounts', style: TextStyle (
+                            const Text('Your accounts', style: TextStyle (
                                 fontSize: 30,
                             fontWeight: FontWeight.bold),),
 
@@ -62,84 +64,113 @@ Category categoryOne = Category("Home", 0);
                           ],
                         ),
 
-                    Container(
+                    SingleChildScrollView(
+                      child: Column(
 
-                      child: SingleChildScrollView(
-                        child: Column(
-
-                          children: [
-                            SizedBox(
-                              height: 100,
-                             child: ListView.builder(
-                               itemCount: accounts.length,
-                                 scrollDirection: Axis.horizontal,
-                                 itemBuilder: (context, index) => Container(
-                                   padding: EdgeInsets.all(10),
-                                   height: 90,
-                                   width: 170,
-                                   margin: EdgeInsets.all(10),
-                                   color: Colors.blue[400],
-                                   child: Row (
-                                     mainAxisAlignment: MainAxisAlignment.end,
-                                     crossAxisAlignment: CrossAxisAlignment.end,
-
-                                     children: [
-                                       Row(
-
-                                         mainAxisAlignment: MainAxisAlignment.end,
-                                         crossAxisAlignment: CrossAxisAlignment.end,
-                                         children: [
-                                            Text(accounts[index].amount.toString(),style: TextStyle(
-                                             fontSize: 20,
-                                           ),
-                                           ),
-                                           Column(
-                                             crossAxisAlignment: CrossAxisAlignment.start,
-
-
-                                             children: [
-                                               Text(accounts[index].name.toUpperCase(),style: TextStyle(
-                                                 fontSize: 25
-                                               ),
-                                               )
-                                             ],
-                                           )
-                                         ],
-                                       )
-                                     ],
-                                     
-                                   ),
-
+                        children: [
+                          SizedBox(
+                            height: 100,
+                           child: ListView.builder(
+                             itemCount: accounts.length,
+                               scrollDirection: Axis.horizontal,
+                               itemBuilder: (context, index) => Container(
+                                 padding: const EdgeInsets.all(10),
+                                 height: 90,
+                                 width: 180,
+                                 margin: const EdgeInsets.all(10),
+                                 decoration: BoxDecoration(
+                                     borderRadius: BorderRadius.circular(7),
+                                   color: Colors.blue
 
                                  ),
-                            )
-                            )
-                          ],
-                        ),
+
+                                 child: Row (
+                                   mainAxisAlignment: MainAxisAlignment.end,
+                                   crossAxisAlignment: CrossAxisAlignment.end,
+
+                                   children: [
+                                     Row(
+
+                                       mainAxisAlignment: MainAxisAlignment.end,
+                                       crossAxisAlignment: CrossAxisAlignment.end,
+                                       children: [
+                                          Text(accounts[index].amount.toString(),style: const TextStyle(
+                                           fontSize: 20,
+                                         ),
+                                         ),
+                                         Column(
+                                           crossAxisAlignment: CrossAxisAlignment.start,
+
+
+                                           children: [
+                                             Text(accounts[index].name.toUpperCase(),style: const TextStyle(
+                                               fontSize: 25
+                                             ),
+                                             )
+                                           ],
+                                         )
+                                       ],
+                                     )
+                                   ],
+
+                                 ),
+
+
+                               ),
+                          )
+                          )
+                        ],
                       ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Container(
+                          decoration: BoxDecoration(
+                            color: Colors.green[100],
+                              borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.all(10),
                           child: DropdownButton(
                             hint: const Text ("Choose category"),
                             value: valueCategory,
                             items: categoryList.map(buildMenu).toList(),
-                            onChanged: (value)=> setState(() =>this.valueCategory = value),
+                            onChanged: (value)=> setState(() =>valueCategory = value),
                           ),
                         ),
                         Container(
+                          decoration: BoxDecoration(
+                            color: Colors.green[100],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                            padding: const EdgeInsets.all(10),
                           child: DropdownButton(
                             hint: const Text ("Choose account"),
                             value: valueAccount,
                             items: accounts.map(buildMenuAccount).toList(),
-                            onChanged: (value)=> setState(() =>this.valueAccount = value),
+                            onChanged: (value)=> setState(() =>valueAccount = value),
                           ),
                         )
 
                       ]
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(onPressed: (){}, icon: Icon(
+                          Icons.add_box,size: 40,color: Colors.green)),
+                        Container(
+                          width: 180,
+                          height: 40,
+
+                          child: TextField(),
+                        ),
+
+                        IconButton(onPressed: (){}, icon: Icon(
+                            Icons.indeterminate_check_box,size: 40,color: Colors.red))
+
+                      ],
+                    )
               ]
             ),
 
@@ -153,14 +184,14 @@ Category categoryOne = Category("Home", 0);
       value: e.categoryName,
       child: Text(
   e.categoryName,
-  style: const TextStyle (fontSize: 20),
+  style: const TextStyle (fontSize: 15),
   ),
   );
   DropdownMenuItem <String> buildMenuAccount(Account e )=> DropdownMenuItem(
     value: e.name,
     child: Text(
       e.name,
-      style: const TextStyle (fontSize: 20),
+      style: const TextStyle (fontSize: 15),
     ),
   );
   }
