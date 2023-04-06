@@ -14,13 +14,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late String categoryChoose ;
-
+    double enteredAmount =0;
  List <Account> accounts = [] ;
  final List <Category> categoryList = [];
-
-Account start =  Account("bank", 60 );
+final _controller = TextEditingController();
+  Account start =  Account("bank", 60 );
   Account startTwo =  Account("cash", 600 );
-Category categoryOne = Category("Home", 0);
+  Category categoryOne = Category("Home", 0);
   Category categoryTwo = Category("Two", 0);
   String? valueCategory;
   String? valueAccount;
@@ -157,16 +157,23 @@ Category categoryOne = Category("Home", 0);
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        IconButton(onPressed: (){}, icon: Icon(
+                        IconButton(onPressed:() {profitMoney (enteredAmount);}, icon: Icon(
                           Icons.add_box,size: 40,color: Colors.green)),
                         Container(
                           width: 180,
                           height: 40,
 
-                          child: TextField(),
+                          child:  TextField(
+                            controller: _controller,
+                            onChanged:(String value){
+                              enteredAmount = double.tryParse(value)!;
+                            },
+                            keyboardType: TextInputType.number,
+
+                          ),
                         ),
 
-                        IconButton(onPressed: (){}, icon: Icon(
+                        IconButton(onPressed:() {expenseMoney (enteredAmount);}, icon: Icon(
                             Icons.indeterminate_check_box,size: 40,color: Colors.red))
 
                       ],
@@ -194,4 +201,35 @@ Category categoryOne = Category("Home", 0);
       style: const TextStyle (fontSize: 15),
     ),
   );
+
+
+  profitMoney(double enteredAmount) {
+
+    for(int i = 0; i<accounts.length;i++){
+      if(accounts[i].name==valueAccount){
+        setState(() {
+          double value = accounts[i].amount;
+          accounts[i].amount=value+enteredAmount;
+
+        });
+
+      }
+    }
+  }
+
+  void expenseMoney(double enteredAmount) {
+    for(int i = 0; i<accounts.length;i++){
+      if(accounts[i].name==valueAccount){
+        setState(() {
+          double value = accounts[i].amount;
+          accounts[i].amount=value-enteredAmount;
+          _controller.text="";
+
+        });
+
+      }
+    }
+
+
+  }
   }
