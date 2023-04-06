@@ -16,7 +16,11 @@ class _HomeState extends State<Home> {
   late String categoryChoose ;
     double enteredAmount =0;
  List <Account> accounts = [] ;
- final List <Category> categoryList = [];
+ List <Category> categoryList = [];
+
+  List <Category> categoryProfit = [];
+  List <Category> categoryExpence = [];
+
 final _controller = TextEditingController();
   Account start =  Account("bank", 60 );
   Account startTwo =  Account("cash", 600 );
@@ -30,6 +34,7 @@ final _controller = TextEditingController();
     accounts.add(startTwo);
     categoryList.add(categoryOne);
     categoryList.add(categoryTwo);
+
     super.initState();
   }
   @override
@@ -177,6 +182,27 @@ final _controller = TextEditingController();
                             Icons.indeterminate_check_box,size: 40,color: Colors.red))
 
                       ],
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+                          children: [
+
+                        Container(
+                          height: 200,
+                          width: 150,
+                          color: Colors.brown,
+
+                        ),
+                            Container(
+                              height: 200,
+                              width: 150,
+                              color: Colors.brown,
+
+                            )
+                          ],
+
                     )
               ]
             ),
