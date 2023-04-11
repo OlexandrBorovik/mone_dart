@@ -1,9 +1,11 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:mone_dart/models/category.dart';
 
-import '../models/account.dart';
+import '../../damain/entities/account.dart';
+import '../../damain/entities/category.dart';
+import '../blocs/profit_money.dart';
+
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,6 +15,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  ProfitMoney _bloc = ProfitMoney();
   late String categoryChoose ;
     double enteredAmount =0;
  List <Account> accounts = [] ;
@@ -22,9 +25,9 @@ class _HomeState extends State<Home> {
   List <Category> categoryExpence = [];
 
 final _controller = TextEditingController();
-  Account start =  Account("bank", 60 );
+  Account start =  Account("bank", 60,  );
   Account startTwo =  Account("cash", 600 );
-  Category categoryOne = Category("Home", 0);
+  Category categoryOne = Category("Home", 20);
   Category categoryTwo = Category("Two", 0);
   String? valueCategory;
   String? valueAccount;
@@ -34,6 +37,8 @@ final _controller = TextEditingController();
     accounts.add(startTwo);
     categoryList.add(categoryOne);
     categoryList.add(categoryTwo);
+    categoryProfit.add(categoryOne);
+    categoryProfit.add(categoryTwo);
 
     super.initState();
   }
@@ -75,7 +80,8 @@ final _controller = TextEditingController();
                         children: [
                           SizedBox(
                             height: 100,
-                           child: ListView.builder(
+                           child:
+                           ListView.builder(
                              itemCount: accounts.length,
                                scrollDirection: Axis.horizontal,
                                itemBuilder: (context, index) => Container(
@@ -136,7 +142,9 @@ final _controller = TextEditingController();
                               borderRadius: BorderRadius.circular(10),
                           ),
                           padding: const EdgeInsets.all(10),
-                          child: DropdownButton(
+                          child:
+
+                          DropdownButton(
                             hint: const Text ("Choose category"),
                             value: valueCategory,
                             items: categoryList.map(buildMenu).toList(),
@@ -162,6 +170,7 @@ final _controller = TextEditingController();
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+
                         IconButton(onPressed:() {profitMoney (enteredAmount);}, icon: Icon(
                           Icons.add_box,size: 40,color: Colors.green)),
                         Container(
@@ -184,22 +193,30 @@ final _controller = TextEditingController();
                       ],
                     ),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    Column(
+
 
                           children: [
 
-                        Container(
-                          height: 200,
-                          width: 150,
-                          color: Colors.brown,
+                            Column(
+                              children: [
+                                SizedBox(
+                                  height: 400,
+                                  child: ListView.builder(
+                                    itemCount: categoryProfit.length,
+                                    itemBuilder: (BuildContext context,int index){
+                                      return
+                                          Text(categoryProfit[index].categoryName+ "  "+ categoryProfit[index].categoryAmount.toString(),
+                                          style: TextStyle(
+                                            fontSize: 25,
+                                            color: Colors.green
+                                          ),);
+                                    }
+                                  )
 
-                        ),
-                            Container(
-                              height: 200,
-                              width: 150,
-                              color: Colors.brown,
+                                  ),
 
+                              ],
                             )
                           ],
 
